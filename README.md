@@ -40,7 +40,7 @@ A multilingual AI assistant that accepts input in any language and provides AI-p
 
 4\. Run: python app.py
 
-5\. Open browser and go to http://127.0.0.1:5000
+5\. Open browser and go to https://ai-translator-1-ji8b.onrender.com/
 
 
 
