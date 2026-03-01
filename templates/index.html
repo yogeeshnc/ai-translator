@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AI Translator</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { min-height: 100vh; background: linear-gradient(135deg, #667eea, #764ba2); font-family: Arial, sans-serif; display: flex; justify-content: center; align-items: center; }
+        .container { background: white; border-radius: 20px; padding: 40px; width: 600px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+        h1 { text-align: center; color: #667eea; margin-bottom: 10px; font-size: 28px; }
+        p.subtitle { text-align: center; color: #888; margin-bottom: 30px; }
+        input { width: 100%; padding: 15px; border: 2px solid #ddd; border-radius: 10px; font-size: 16px; outline: none; }
+        input:focus { border-color: #667eea; }
+        .buttons { display: flex; gap: 10px; margin-top: 15px; }
+        button { flex: 1; padding: 15px; border: none; border-radius: 10px; font-size: 16px; cursor: pointer; }
+        .send-btn { background: linear-gradient(135deg, #667eea, #764ba2); color: white; }
+        .clear-btn { background: #f0f0f0; color: #666; }
+        .box { margin-top: 20px; padding: 15px; border-radius: 10px; display: none; }
+        .translated-box { background: #f0f4ff; border-left: 4px solid #667eea; }
+        .response-box { background: #f0fff4; border-left: 4px solid #48bb78; }
+        .box h3 { font-size: 13px; color: #888; margin-bottom: 8px; text-transform: uppercase; }
+        .box p { color: #333; line-height: 1.6; }
+        .spinner { text-align: center; margin-top: 20px; display: none; color: #667eea; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🌐 AI Translator</h1>
+        <p class="subtitle">Type in any language and get AI response</p>
+        <input type="text" id="userInput" placeholder="Type in any language...">
+        <div class="buttons">
+            <button class="send-btn" onclick="sendMessage()">Send</button>
+            <button class="clear-btn" onclick="clearAll()">Clear</button>
+        </div>
+        <div class="spinner" id="spinner">⏳ Please wait...</div>
+        <div class="box translated-box" id="translatedBox">
+            <h3>Translated to English</h3>
+            <p id="translated"></p>
+        </div>
+        <div class="box response-box" id="responseBox">
+            <h3>AI Response</h3>
+            <p id="response"></p>
+        </div>
+    </div>
+
+    <script>
+        async function sendMessage() {
+            let text = document.getElementById("userInput").value;
+            if (!text) return;
+            document.getElementById("spinner").style.display = "block";
+            document.getElementById("translatedBox").style.display = "none";
+            document.getElementById("responseBox").style.display = "none";
+            let res = await fetch("/translate", {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({text: text})
+            });
+            let data = await res.json();
+            document.getElementById("spinner").style.display = "none";
+            document.getElementById("translatedBox").style.display = "block";
+            document.getElementById("responseBox").style.display = "block";
+            document.getElementById("translated").innerText = data.translated;
+            document.getElementById("response").innerText = data.response;
+        }
+
+        function clearAll() {
+            document.getElementById("userInput").value = "";
+            document.getElementById("translatedBox").style.display = "none";
+            document.getElementById("responseBox").style.display = "none";
+            document.getElementById("spinner").style.display = "none";
+        }
+
+        document.getElementById("userInput").addEventListener("keypress", function(e) {
+            if (e.key === "Enter") sendMessage();
+        });
+    </script>
+</body>
+</html>
