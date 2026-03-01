@@ -1,5 +1,5 @@
 flask
-groq
-googletrans==4.0.0rc1
+groq==0.9.0
+deep-translator
 python-dotenv
 gunicorn
