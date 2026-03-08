@@ -46,7 +46,7 @@ A multilingual AI assistant that accepts input in any language and provides AI-p
 
 \## Example
 
-\- Input: "jai shree ram"
+\- Input: "ಜೈ ಶ್ರೀ ರಾಮ್"
 
 \- Translated: "Jai Shri Ram"
 
